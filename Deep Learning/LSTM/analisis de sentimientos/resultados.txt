@@ -1,0 +1,30 @@
+PRUEBA DE POSITIVOS-----------------Comentario: I absolutely love this product! It works perfectly and exceeded my expectations.
+Valor: Positivo
+Comentario: Great customer service! They responded quickly and solved my issue in no time.
+Valor: Positivo
+Comentario: The quality is outstanding, and it feels like a premium product.
+Valor: Positivo
+Comentario: Fast shipping and exactly as described. Will buy again!
+Valor: Positivo
+Comentario: This is the best purchase I've made this year. Totally worth the price!
+Valor: Positivo
+PRUEBA DE NEGATIVOS-----------------Comentario: Terrible experience! The product broke within a week.
+Valor: Neutral
+Comentario: Customer service was unhelpful and rude. I wouldn't recommend this company.
+Valor: Neutral
+Comentario: Not what I expected. Poor quality and completely different from the pictures.
+Valor: Neutral
+Comentario: Shipping took forever, and when it arrived, it was damaged.
+Valor: Neutral
+Comentario: A waste of money. I regret buying this.
+Valor: Neutral
+PRUEBA DE NEUTRALES-----------------Comentario: The product is okay, nothing special.
+Valor: Positivo
+Comentario: It does what it says, but I expected better quality for the price.
+Valor: Neutral
+Comentario: Not bad, but not great either. Just an average product.
+Valor: Neutral
+Comentario: Arrived on time, but I haven't tried it yet.
+Valor: Neutral
+Comentario: It’s fine, but I don’t think I’d buy it again.
+Valor: Neutral
