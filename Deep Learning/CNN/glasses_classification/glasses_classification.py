@@ -3,7 +3,7 @@ import zipfile
 import os
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential, load_model
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.preprocessing import image
 import numpy as np
 
@@ -83,24 +83,39 @@ def predict_glasses(img_name, model, route_test):
 if __name__ == "__main__":
     # Descargar datos y configurar rutas
     path_base = download_data_and_unzip()
+    if path_base:
+        route_train = os.path.join(path_base, "train")
+
+        # Contar imágenes en cada subdirectorio de entrenamiento
+        try:
+            for class_name in os.listdir(route_train):
+                class_path = os.path.join(route_train, class_name)
+                if os.path.isdir(class_path):
+                    num_files = len(os.listdir(class_path))
+                    print(f"Clase '{class_name}': {num_files} imágenes")
+        except FileNotFoundError:
+            print(f"Error: El directorio de entrenamiento no se encontró en {route_train}")
+            exit()
+
     route_test = os.path.join(path_base, "test")
-    route_train = os.path.join(path_base, "train")
     route_val = os.path.join(path_base, "validate")
 
     # Crear modelo
     classifier = Sequential()
     classifier.add(Conv2D(filters=32, kernel_size=(3,3), input_shape=(64,64,3), activation="relu"))
     classifier.add(MaxPooling2D(pool_size=(2,2)))
+    classifier.add(Conv2D(filters=64, kernel_size=(3,3), activation="relu"))
+    classifier.add(MaxPooling2D(pool_size=(2,2)))
     classifier.add(Flatten())
     classifier.add(Dense(units=128, activation="relu"))
+    classifier.add(Dropout(0.5))
     classifier.add(Dense(units=64, activation="relu"))
-    classifier.add(Dense(units=32, activation="relu"))
     classifier.add(Dense(units=1, activation="sigmoid"))
 
     classifier.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 
     # Generadores de datos
-    batch_size = 5
+    batch_size = 32
 
     train_datagen = ImageDataGenerator(
         rescale=1./255,
@@ -125,11 +140,10 @@ if __name__ == "__main__":
     # Entrenar modelo
     classifier.fit(
         train_generator,
-        steps_per_epoch=100 // batch_size,
-        epochs=5,
+        steps_per_epoch=train_generator.samples // batch_size,
+        epochs=25,
         validation_data=validation_generator,
-        validation_steps=800 // batch_size)
+        validation_steps=validation_generator.samples // batch_size)
 
     # Guardar modelo
-    classifier.save_weights('first_try.weights.h5')
     classifier.save('first_try.h5')
